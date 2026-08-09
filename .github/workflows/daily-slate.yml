@@ -1,0 +1,81 @@
+# .github/workflows/daily-slate.yml
+#
+# Rebuilds slate.json every morning and commits it. GitHub Pages then serves it
+# same-origin alongside your HTML, so the browser never makes a cross-origin
+# request — which is what was getting blocked when publishing before.
+
+name: Build daily MLB slate
+
+on:
+  schedule:
+    # 10:00 UTC = 6am ET / 3am PT — after overnight games finish, before first pitch.
+    # Note: GitHub cron is UTC and does NOT shift with daylight saving.
+    - cron: '0 10 * * *'
+  workflow_dispatch:      # lets you trigger a rebuild by hand from the Actions tab
+    inputs:
+      date:
+        description: 'Date to build (YYYY-MM-DD), blank = today'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # No npm install needed — the builder uses only Node's built-in fetch.
+
+      - name: Build today's slate
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            node build-slate.js --date "${{ inputs.date }}" --out public/slate.json
+          else
+            node build-slate.js --out public/slate.json
+          fi
+
+      # Optional: layer Statcast metrics on top. Allowed to fail without killing
+      # the build, since it scrapes Baseball Savant and can break when they change
+      # their page structure. A slate without Statcast is still fully usable.
+      - name: Enrich with Statcast (optional)
+        continue-on-error: true
+        run: |
+          pip install --quiet pybaseball pandas
+          python enrich-statcast.py --slate public/slate.json
+
+      - name: Sanity check output
+        run: |
+          node -e "
+            const s = require('./public/slate.json');
+            if (!Array.isArray(s.games)) { console.error('malformed slate'); process.exit(1); }
+            console.log(\`✓ \${s.games.length} games, generated \${s.generatedAt}\`);
+            if (s.warnings?.length) s.warnings.forEach(w => console.log('  warn: ' + w));
+          "
+
+      - name: Commit if changed
+        run: |
+          git config user.name  'slate-bot'
+          git config user.email 'actions@github.com'
+          git add public/slate.json
+          git diff --staged --quiet && echo "no changes" && exit 0
+          git commit -m "slate: $(date -u +%Y-%m-%d)"
+          git push
+
+  # Optional second job: keep live scores fresh during game hours without a server.
+  # Comment this in if you want the Slate tab to update even for users who leave
+  # the page open — otherwise client-side polling handles it fine.
+  #
+  # live-scores:
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'schedule'
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: node build-live.js --out public/live.json
