@@ -28,7 +28,18 @@ function arg(flag, fallback) {
   const i = process.argv.indexOf(flag);
   return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
 }
-const DATE = arg('--date', new Date().toISOString().slice(0, 10));
+// MLB's "game date" follows US convention: a 10pm ET game belongs to that
+// calendar day, not the next UTC day. Defaulting to the UTC date meant any run
+// after ~7pm ET built TOMORROW's slate — and any run in the early UTC hours
+// could build yesterday's. Anchor to US Eastern instead.
+function todayEastern() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/New_York',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());   // en-CA gives YYYY-MM-DD
+}
+const DATE = arg('--date', todayEastern());
+const VERBOSE = process.argv.includes('--verbose');
 const OUT = arg('--out', 'public/slate.json');
 const CONCURRENCY = 6; // be a polite API citizen
 
@@ -75,10 +86,27 @@ const round = (v, d = 1) => (v == null || Number.isNaN(v) ? null : +v.toFixed(d)
 // ---------------------------------------------------------------- schedule
 async function fetchSchedule(date) {
   const url = `${MLB}/schedule?sportId=1&date=${date}&hydrate=probablePitcher,linescore,venue,team`;
+  if (VERBOSE) console.log(`  GET ${url}`);
   const data = await getJSON(url);
-  const day = data.dates?.[0];
-  if (!day) return [];
-  return day.games.map(g => ({
+
+  // Flatten across every returned date bucket rather than assuming one. The API
+  // can split entries, and silently reading only dates[0] would drop games.
+  const allGames = (data.dates || []).flatMap(d => d.games || []);
+  if (VERBOSE) {
+    console.log(`  API returned ${data.totalGames ?? '?'} totalGames across ${(data.dates || []).length} date bucket(s)`);
+    (data.dates || []).forEach(d => console.log(`    ${d.date}: ${d.games?.length ?? 0} games`));
+  }
+  if (!allGames.length) return [];
+
+  // Guard against a date mismatch — if the API hands back a different day than
+  // we asked for, that's the single most likely cause of a "wrong slate" bug,
+  // so surface it loudly instead of silently building the wrong thing.
+  const offDate = (data.dates || []).filter(d => d.date !== date).map(d => d.date);
+  if (offDate.length) {
+    console.warn(`  ⚠ requested ${date} but API also returned: ${offDate.join(', ')}`);
+  }
+
+  return allGames.map(g => ({
     gamePk: g.gamePk,
     startTimeUTC: g.gameDate,
     status: g.status?.abstractGameState || 'Preview',
@@ -234,7 +262,7 @@ function windRelativeToPark(windFromDeg, cfBearing) {
 async function build() {
   const started = Date.now();
   const warnings = [];
-  console.log(`▸ Building slate for ${DATE}`);
+  console.log(`▸ Building slate for ${DATE}  (US Eastern today = ${todayEastern()}, UTC now = ${new Date().toISOString()})`);
 
   const parks = JSON.parse(await fs.readFile(new URL('./parks.json', import.meta.url), 'utf8'));
 
@@ -245,7 +273,17 @@ async function build() {
     await writeOut({ date: DATE, generatedAt: new Date().toISOString(), games: [], warnings: ['No games scheduled'] });
     return;
   }
-  console.log(`  ${schedule.length} games`);
+  const statusCounts = schedule.reduce((acc, g) => {
+    acc[g.status] = (acc[g.status] || 0) + 1; return acc;
+  }, {});
+  console.log(`  ${schedule.length} games — ${Object.entries(statusCounts).map(([k, v]) => `${v} ${k}`).join(', ')}`);
+  if (schedule.length && schedule.every(g => g.status === 'Final')) {
+    warnings.push(`Every game for ${DATE} is already Final — check that the build ran for the intended date (system UTC now: ${new Date().toISOString()})`);
+    console.warn('  ⚠ all games already Final — is this the date you meant?');
+  }
+  if (VERBOSE) {
+    schedule.forEach(g => console.log(`    ${g.away.abbr}@${g.home.abbr} ${g.startTimeUTC} [${g.status}]`));
+  }
 
   // 2. Rosters (unique teams only)
   const teamIds = [...new Set(schedule.flatMap(g => [g.away.id, g.home.id]))];
@@ -346,6 +384,7 @@ async function build() {
   const payload = {
     date: DATE,
     generatedAt: new Date().toISOString(),
+    builtForEasternDate: todayEastern(),
     buildDurationMs: Date.now() - started,
     gameCount: games.length,
     sources: {
