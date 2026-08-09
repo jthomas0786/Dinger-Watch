@@ -1,7 +1,7 @@
 {
   "date": "2026-08-09",
-  "generatedAt": "2026-08-09T11:04:46.693Z",
-  "buildDurationMs": 9890,
+  "generatedAt": "2026-08-09T15:11:53.726Z",
+  "buildDurationMs": 7811,
   "gameCount": 15,
   "sources": {
     "schedule": "MLB Stats API",
@@ -13,14 +13,14 @@
     "odds": "NOT INCLUDED \u2014 requires a paid feed (e.g. The-Odds-API)"
   },
   "warnings": [
-    "3 game(s) missing a probable starter \u2014 normal this far out"
+    "1 game(s) missing a probable starter \u2014 normal this far out"
   ],
   "games": [
     {
       "gamePk": 822700,
       "startTimeUTC": "2026-08-09T16:15:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -34,16 +34,16 @@
       },
       "weather": {
         "tempF": 91,
-        "humidity": 47,
-        "dewPoint": 68,
-        "precipChance": 1,
+        "humidity": 50,
+        "dewPoint": 70,
+        "precipChance": 0,
         "windMph": 7,
-        "windDeg": 295,
+        "windDeg": 256,
         "forecastHourUTC": "2026-08-09T16:00",
         "wind": {
-          "label": "Across toward 1B side",
-          "sector": "across",
-          "relativeDeg": 75
+          "label": "Out to right field",
+          "sector": "out",
+          "relativeDeg": 36
         }
       },
       "away": {
@@ -2686,7 +2686,7 @@
       "gamePk": 824724,
       "startTimeUTC": "2026-08-09T17:35:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -2699,17 +2699,17 @@
         "elevation": 21
       },
       "weather": {
-        "tempF": 90,
-        "humidity": 46,
-        "dewPoint": 66,
+        "tempF": 91,
+        "humidity": 49,
+        "dewPoint": 69,
         "precipChance": 0,
         "windMph": 12,
-        "windDeg": 256,
+        "windDeg": 259,
         "forecastHourUTC": "2026-08-09T17:00",
         "wind": {
           "label": "Out to right field",
           "sector": "out",
-          "relativeDeg": 38
+          "relativeDeg": 41
         }
       },
       "away": {
@@ -4095,9 +4095,25 @@
         "id": 111,
         "abbr": "BOS",
         "name": "Red Sox",
-        "probablePitcherId": null,
-        "probablePitcherName": null,
-        "pitcher": null,
+        "probablePitcherId": 669062,
+        "probablePitcherName": "Erik Miller",
+        "pitcher": {
+          "id": 669062,
+          "name": "Erik Miller",
+          "confirmed": true,
+          "stats": {
+            "gs": 0,
+            "ip": 35,
+            "era": 2.57,
+            "whip": 1.34,
+            "k": 49,
+            "bb": 23,
+            "hr": 2,
+            "k9": 12.6,
+            "bb9": 5.91,
+            "hr9": 0.51
+          }
+        },
         "lineup": [
           {
             "id": 575929,
@@ -5595,17 +5611,17 @@
         "elevation": 730
       },
       "weather": {
-        "tempF": 82,
-        "humidity": 61,
+        "tempF": 81,
+        "humidity": 62,
         "dewPoint": 67,
         "precipChance": 0,
         "windMph": 5,
-        "windDeg": 243,
+        "windDeg": 227,
         "forecastHourUTC": "2026-08-09T17:00",
         "wind": {
           "label": "Out to center",
           "sector": "out",
-          "relativeDeg": -2
+          "relativeDeg": -18
         }
       },
       "away": {
@@ -8371,7 +8387,7 @@
       "gamePk": 823425,
       "startTimeUTC": "2026-08-09T17:35:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -8385,16 +8401,16 @@
       },
       "weather": {
         "tempF": 92,
-        "humidity": 43,
-        "dewPoint": 66,
-        "precipChance": 2,
-        "windMph": 7,
-        "windDeg": 272,
+        "humidity": 47,
+        "dewPoint": 69,
+        "precipChance": 0,
+        "windMph": 8,
+        "windDeg": 263,
         "forecastHourUTC": "2026-08-09T17:00",
         "wind": {
           "label": "Across toward 1B side",
           "sector": "across",
-          "relativeDeg": 80
+          "relativeDeg": 71
         }
       },
       "away": {
@@ -11283,7 +11299,7 @@
       "gamePk": 823513,
       "startTimeUTC": "2026-08-09T17:35:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -11296,17 +11312,17 @@
         "elevation": 55
       },
       "weather": {
-        "tempF": 91,
-        "humidity": 47,
+        "tempF": 90,
+        "humidity": 48,
         "dewPoint": 68,
         "precipChance": 0,
-        "windMph": 10,
-        "windDeg": 288,
+        "windMph": 11,
+        "windDeg": 284,
         "forecastHourUTC": "2026-08-09T17:00",
         "wind": {
           "label": "Out to right field",
           "sector": "out",
-          "relativeDeg": 33
+          "relativeDeg": 29
         }
       },
       "away": {
@@ -14318,7 +14334,7 @@
       "gamePk": 823835,
       "startTimeUTC": "2026-08-09T17:40:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -14331,17 +14347,17 @@
         "elevation": 10
       },
       "weather": {
-        "tempF": 87,
-        "humidity": 75,
-        "dewPoint": 78,
-        "precipChance": 4,
-        "windMph": 10,
-        "windDeg": 113,
+        "tempF": 86,
+        "humidity": 80,
+        "dewPoint": 79,
+        "precipChance": 5,
+        "windMph": 8,
+        "windDeg": 106,
         "forecastHourUTC": "2026-08-09T17:00",
         "wind": {
           "label": "Across toward 3B side",
           "sector": "across",
-          "relativeDeg": -102
+          "relativeDeg": -109
         }
       },
       "away": {
@@ -17353,7 +17369,7 @@
       "gamePk": 824078,
       "startTimeUTC": "2026-08-09T18:10:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -17366,17 +17382,17 @@
         "elevation": 750
       },
       "weather": {
-        "tempF": 96,
-        "humidity": 38,
+        "tempF": 95,
+        "humidity": 40,
         "dewPoint": 67,
         "precipChance": 4,
-        "windMph": 17,
-        "windDeg": 199,
+        "windMph": 14,
+        "windDeg": 189,
         "forecastHourUTC": "2026-08-09T18:00",
         "wind": {
           "label": "Out to left field",
           "sector": "out",
-          "relativeDeg": -56
+          "relativeDeg": -66
         }
       },
       "away": {
@@ -20265,7 +20281,7 @@
       "gamePk": 824564,
       "startTimeUTC": "2026-08-09T18:10:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -20279,16 +20295,16 @@
       },
       "weather": {
         "tempF": 84,
-        "humidity": 65,
-        "dewPoint": 71,
-        "precipChance": 16,
-        "windMph": 10,
-        "windDeg": 199,
+        "humidity": 69,
+        "dewPoint": 73,
+        "precipChance": 10,
+        "windMph": 11,
+        "windDeg": 203,
         "forecastHourUTC": "2026-08-09T18:00",
         "wind": {
           "label": "Out to left field",
           "sector": "out",
-          "relativeDeg": -27
+          "relativeDeg": -23
         }
       },
       "away": {
@@ -23300,7 +23316,7 @@
       "gamePk": 823751,
       "startTimeUTC": "2026-08-09T18:10:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -23313,17 +23329,17 @@
         "elevation": 635
       },
       "weather": {
-        "tempF": 85,
-        "humidity": 57,
-        "dewPoint": 68,
-        "precipChance": 39,
-        "windMph": 7,
-        "windDeg": 204,
+        "tempF": 79,
+        "humidity": 81,
+        "dewPoint": 73,
+        "precipChance": 54,
+        "windMph": 10,
+        "windDeg": 228,
         "forecastHourUTC": "2026-08-09T18:00",
         "wind": {
           "label": "Out to left field",
           "sector": "out",
-          "relativeDeg": -61
+          "relativeDeg": -37
         }
       },
       "away": {
@@ -26335,7 +26351,7 @@
       "gamePk": 823020,
       "startTimeUTC": "2026-08-09T18:15:00Z",
       "status": "Preview",
-      "detailedStatus": "Scheduled",
+      "detailedStatus": "Pre-Game",
       "doubleHeader": false,
       "gameNumber": 1,
       "venue": {
@@ -26348,17 +26364,17 @@
         "elevation": 465
       },
       "weather": {
-        "tempF": 91,
-        "humidity": 52,
-        "dewPoint": 71,
-        "precipChance": 1,
-        "windMph": 13,
-        "windDeg": 174,
+        "tempF": 90,
+        "humidity": 50,
+        "dewPoint": 68,
+        "precipChance": 2,
+        "windMph": 10,
+        "windDeg": 180,
         "forecastHourUTC": "2026-08-09T18:00",
         "wind": {
-          "label": "Across toward 3B side",
-          "sector": "across",
-          "relativeDeg": -71
+          "label": "Out to left field",
+          "sector": "out",
+          "relativeDeg": -65
         }
       },
       "away": {
@@ -26757,7 +26773,7 @@
           {
             "id": 664983,
             "name": "Jake McCarthy",
-            "pos": "CF",
+            "pos": "LF",
             "season": {
               "g": 102,
               "pa": 394,
@@ -29383,17 +29399,17 @@
         "elevation": 545
       },
       "weather": {
-        "tempF": 97,
-        "humidity": 37,
-        "dewPoint": 67,
+        "tempF": 96,
+        "humidity": 41,
+        "dewPoint": 68,
         "precipChance": 1,
-        "windMph": 8,
-        "windDeg": 182,
+        "windMph": 7,
+        "windDeg": 194,
         "forecastHourUTC": "2026-08-09T18:00",
         "wind": {
           "label": "Out to left field",
           "sector": "out",
-          "relativeDeg": -48
+          "relativeDeg": -36
         }
       },
       "away": {
@@ -32295,17 +32311,17 @@
         "elevation": 24
       },
       "weather": {
-        "tempF": 76,
-        "humidity": 59,
-        "dewPoint": 61,
+        "tempF": 74,
+        "humidity": 62,
+        "dewPoint": 60,
         "precipChance": 0,
-        "windMph": 10,
-        "windDeg": 264,
+        "windMph": 11,
+        "windDeg": 268,
         "forecastHourUTC": "2026-08-09T20:00",
         "wind": {
           "label": "Out to center",
           "sector": "out",
-          "relativeDeg": -11
+          "relativeDeg": -7
         }
       },
       "away": {
@@ -34716,8 +34732,8 @@
       },
       "weather": {
         "tempF": 109,
-        "humidity": 21,
-        "dewPoint": 60,
+        "humidity": 22,
+        "dewPoint": 61,
         "precipChance": 0,
         "windMph": 4,
         "windDeg": 270,
@@ -37628,25 +37644,41 @@
       },
       "weather": {
         "tempF": 70,
-        "humidity": 57,
-        "dewPoint": 54,
+        "humidity": 59,
+        "dewPoint": 55,
         "precipChance": 0,
-        "windMph": 8,
-        "windDeg": 309,
+        "windMph": 5,
+        "windDeg": 301,
         "forecastHourUTC": "2026-08-09T20:00",
         "wind": {
           "label": "Across toward 1B side",
           "sector": "across",
-          "relativeDeg": 84
+          "relativeDeg": 76
         }
       },
       "away": {
         "id": 139,
         "abbr": "TB",
         "name": "Rays",
-        "probablePitcherId": null,
-        "probablePitcherName": null,
-        "pitcher": null,
+        "probablePitcherId": 693855,
+        "probablePitcherName": "Ian Seymour",
+        "pitcher": {
+          "id": 693855,
+          "name": "Ian Seymour",
+          "confirmed": true,
+          "stats": {
+            "gs": 8,
+            "ip": 84.33333333333333,
+            "era": 4.27,
+            "whip": 1.13,
+            "k": 99,
+            "bb": 28,
+            "hr": 13,
+            "k9": 10.57,
+            "bb9": 2.99,
+            "hr9": 1.39
+          }
+        },
         "lineup": [
           {
             "id": 691406,
@@ -40649,14 +40681,14 @@
         "tempF": 79,
         "humidity": 70,
         "dewPoint": 68,
-        "precipChance": 3,
+        "precipChance": 1,
         "windMph": 7,
-        "windDeg": 225,
+        "windDeg": 247,
         "forecastHourUTC": "2026-08-10T00:00",
         "wind": {
           "label": "Out to right field",
           "sector": "out",
-          "relativeDeg": 40
+          "relativeDeg": 62
         }
       },
       "away": {
@@ -43649,5 +43681,5 @@
       }
     }
   ],
-  "statcastEnrichedAt": "2026-08-09T11:05:14.852461Z"
+  "statcastEnrichedAt": "2026-08-09T15:12:18.383138Z"
 }
