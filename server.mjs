@@ -87,9 +87,9 @@ async function community(res, req, kind) {
   try {
     const user = await verifiedUser(req); const token = req.headers.authorization;
     const body = await readJson(req);
-    const record = kind === 'post' ? { user_id: user.id, league: String(body.league || '').slice(0, 20), event_id: String(body.event_id || '').slice(0, 80) || null, body: String(body.body || '').trim().slice(0, 500) } : { user_id: user.id, league: String(body.league || '').slice(0, 20), event_id: String(body.event_id || '').slice(0, 80), selection: String(body.selection || '').trim().slice(0, 80) };
-    if (!record.league || (kind === 'post' && !record.body) || (kind === 'prediction' && (!record.event_id || !record.selection))) return json(res, 400, { error: 'Missing required fields.' });
-    json(res, 201, await supabaseInsert(kind === 'post' ? 'posts' : 'predictions', record, token));
+    const record = kind === 'post' ? { user_id: user.id, league: String(body.league || '').slice(0, 20), event_id: String(body.event_id || '').slice(0, 80) || null, body: String(body.body || '').trim().slice(0, 500) } : kind === 'follow' ? { user_id: user.id, league: String(body.league || '').slice(0, 20), team_id: String(body.team_id || '').slice(0, 80) } : { user_id: user.id, league: String(body.league || '').slice(0, 20), event_id: String(body.event_id || '').slice(0, 80), selection: String(body.selection || '').trim().slice(0, 80) };
+    if (!record.league || (kind === 'post' && !record.body) || (kind === 'follow' && !record.team_id) || (kind === 'prediction' && (!record.event_id || !record.selection))) return json(res, 400, { error: 'Missing required fields.' });
+    json(res, 201, await supabaseInsert(kind === 'post' ? 'posts' : kind === 'follow' ? 'team_follows' : 'predictions', record, token));
   } catch (error) { json(res, error.message.includes('Authentication') || error.message.includes('sign-in') ? 401 : 400, { error: error.message }); }
 }
 
@@ -105,9 +105,12 @@ async function reportError(res, req) {
 createServer(async (req, res) => {
   if (!allowRequest(req, res)) return;
   const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+  if (req.method === 'GET' && url.pathname === '/api/health') return json(res, 200, { ok: true, provider, supabaseConfigured: Boolean(supabaseUrl && supabaseAnonKey) });
+  if (req.method === 'GET' && url.pathname === '/api/config') return json(res, 200, { accountsEnabled: Boolean(supabaseUrl && supabaseAnonKey), supabaseUrl, supabaseAnonKey });
   const api = url.pathname.match(/^\/api\/(mlb|nfl|nba|nhl|eng\.1)\/(scoreboard|standings)$/);
   if (req.method === 'GET' && api) return sportsData(res, api[1], api[2]);
   if (req.method === 'POST' && url.pathname === '/api/community/posts') return community(res, req, 'post');
+  if (req.method === 'POST' && url.pathname === '/api/community/follows') return community(res, req, 'follow');
   if (req.method === 'POST' && url.pathname === '/api/community/predictions') return community(res, req, 'prediction');
   if (req.method === 'POST' && url.pathname === '/api/errors') return reportError(res, req);
   const requested = url.pathname === '/' ? 'pulse-sports.html' : url.pathname.replace(/^\/+/, '');

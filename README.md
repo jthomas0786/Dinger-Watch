@@ -35,6 +35,10 @@ For production, run the included Node server and configure a licensed provider:
 
 The included SportsDataIO adapter currently supports MLB scoreboard and standings. Add provider adapters for the other leagues before enabling them in a commercial release.
 
+## One-click production-host configuration
+
+`render.yaml` is included for Render. After pushing this project to a GitHub repository, create a **Blueprint** in Render and select that repository. Render reads the configuration automatically; paste the requested secret values into its environment-variable screen. Its health check uses `/api/health`.
+
 ## Accounts and community features
 
 Pulse Sports includes authenticated API routes for posts and predictions and a Supabase database schema.
