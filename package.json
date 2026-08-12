@@ -1,11 +1,14 @@
 {
-  "name": "dinger-watch-slate-builder",
+  "name": "pulse-sports",
   "version": "1.0.0",
-  "type": "module",
-  "description": "Daily MLB slate builder — assembles schedule, rosters, stats, and weather into a single slate.json",
+  "private": true,
+  "description": "Live sports scoreboard and fan-pulse web app.",
   "scripts": {
-    "build": "node build-slate.js",
-    "build:tomorrow": "node -e \"const d=new Date();d.setDate(d.getDate()+1);console.log(d.toISOString().slice(0,10))\" | xargs -I{} node build-slate.js --date {}"
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "check": "node --check server.mjs"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=20"
+  }
 }

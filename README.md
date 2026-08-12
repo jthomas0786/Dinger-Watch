@@ -25,10 +25,31 @@ Then visit `http://localhost:3000`.
 
 ## Live data
 
-On GitHub Pages, the app reads live scoreboards and standings directly from ESPN's public site API. Locally, it uses the included server route. It supports MLB, NFL, NBA, NHL, and Premier League.
+For a demo deployed on GitHub Pages, the app reads live scoreboards and standings directly from ESPN's public site API. GitHub Pages cannot securely hold a licensed-provider key.
 
-## Before a commercial launch
+For production, run the included Node server and configure a licensed provider:
 
-- Use a licensed sports-data provider.
-- Add authentication and a database for real user accounts, follows, posts, and predictions.
-- Add rate limiting, privacy policy, monitoring, and error reporting.
+1. Copy `.env.example` to `.env`.
+2. Set `SPORTS_DATA_PROVIDER=sportsdataio` and add your SportsDataIO key.
+3. Run `npm start`.
+
+The included SportsDataIO adapter currently supports MLB scoreboard and standings. Add provider adapters for the other leagues before enabling them in a commercial release.
+
+## Accounts and community features
+
+Pulse Sports includes authenticated API routes for posts and predictions and a Supabase database schema.
+
+1. Create a Supabase project.
+2. Run `supabase/schema.sql` in its SQL Editor.
+3. Enable your chosen Supabase Auth sign-in providers.
+4. Set `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` in the server environment.
+5. Connect the client sign-in UI to Supabase Auth before exposing posts or predictions.
+
+The server verifies a user session before accepting community writes. It uses database row-level security to restrict each user’s own profile, follows, and predictions.
+
+## Safety and operations
+
+- The server limits each IP address to 120 requests per minute.
+- Client and server errors are structured in server logs; when a Supabase service key is configured, client errors are also saved to `app_errors`.
+- A starter privacy notice is available at `/privacy.html`. Replace the placeholder contact details and have counsel review it before launch.
+- Add a commercial sports-data agreement, moderation tooling, consent analytics, uptime monitoring, and backups before public release.
